@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+
+{% form_theme formPatient 'bootstrap_4_layout.html.twig' %}
+
+{% block body %}
+
+<h1>Création d'un patient </h1>
+<div class="container-md col-sm-8 col-form-label">
+{{ form_start(formPatient,{'attr':{'novalidate':'novalidate'}}) }}
+
+{{ form_row(formPatient.prenom,{'label' : "Prénom",'attr':{'placeholder':'Prénom'}}) }}
+{{ form_row(formPatient.nom, {'label': 'Nom','attr':{'placeholder':'Nom'}}) }}
+{{ form_row(formPatient.cin, {'label': 'Cin','attr':{'placeholder':'Cin'}}) }}
+{{ form_row(formPatient.dateNaissance, {'label': 'Date de naissance'}) }}
+{{ form_row(formPatient.genre, {'label': 'Genre','attr':{'placeholder':'Genre'}}) }}
+{{ form_row(formPatient.numTel, {'label': 'Numéro de téléphone','attr':{'placeholder':'Numéro de téléphone'}} ) }}
+
+<button type="submit" class="btn btn-outline-secondary">
+{% if editMode %}
+    Modifier
+{% else %}
+    Ajouter patient
+{% endif %}
+</button>
+{{ form_end(formPatient) }}
+</div>
+        {% block javascripts %}
+        {% endblock %}
+{% endblock %}

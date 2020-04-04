@@ -1,0 +1,102 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Patients{% endblock %}
+
+{% block stylesheets %}
+{# bootstrap link #} 
+
+    <link rel="stylesheet" href="/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="/css/dataTables.bootstrap4.min.css">
+
+
+    
+
+{# datatable link #} 
+  
+    
+{% endblock %}
+
+{% block body %}
+{% if  app.user %}
+    <div class="container">
+    <div class="row">
+    <div class="col-md-12">
+        <h1>Liste des Patients</h1>
+        {% for message in app.flashes('info') %}
+            <div class="alert alert-danger">
+                {{ message }}
+            </div>
+        {% endfor %}
+        {% for message in app.flashes('dangercons') %}
+            <div class="alert alert-danger">
+                {{ message }}
+            </div>
+        {% endfor %}
+        {% for message in app.flashes('infosupp') %}
+            <div class="alert alert-info">
+                {{ message }}
+            </div>
+        {% endfor %}
+        <div class="float-right">
+        <a href="{{ path('gestion_create') }}">Nouveau Patient</a>
+        </div>
+            <table class="table table-hover" id="tablesMy">
+        <thead>
+            <tr>
+            <th scope="col">IPP</th>
+            <th scope="col">Cin</th>
+            <th scope="col">Nom & prenom</th>
+            <th scope="col">date Naissance</th>
+            <th scope="col">Detaille</th>
+            <th scope="col">Supprimer</th>
+            <th scope="col">Consultation</th>
+            </tr>
+        </thead>
+        <tbody>
+
+    {% for patient in patients %}
+
+
+            <tr class="table-Default">
+            <th scope="row">{{ patient.id }}</th>
+            <td>{{ patient.cin}}</td>
+            <td>{{ patient.nom ~ ' ' ~ patient.prenom}}</td>
+            <td>{{ patient.dateNaissance|date("m/d/Y")}}</td>
+            <td>
+                <a href="{{ path('patient_show',{'id':patient.id}) }}" class="btn btn-outline-info">voir la suite</a>
+            </td>
+            <td>
+                <a href="{{ path('gestion_delete',{'id':patient.id}) }}" class="btn btn-outline-danger" OnClick="return confirm('Etes-vous sûr que vous voulez supprimer ?');">Supprimer</a>
+            </td>
+            <td>
+                <a href="{{ path('consultation_show',{'id':patient.id}) }}" class="btn btn-outline-info">Consultation</a>
+            </td>
+            </tr>
+
+    {% endfor %}
+  </tbody>
+</table> 
+
+    </div>
+    </div>
+    </div>
+
+{% block javascripts %}
+     
+{# bootstrap link #} 
+
+
+{# datatable link #} 
+   <script src="/js/jquery.dataTables.min.js"></script>
+
+    
+
+   <script>
+  $(document).ready(function() {
+    $('#tablesMy').DataTable({ "language": { "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json" } });
+} );
+   </script>
+
+{% endblock %}
+{% endif %}
+{% endblock %}

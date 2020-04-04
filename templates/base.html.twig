@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}GCM{% endblock %}</title>
+        <link rel="stylesheet" href="https://bootswatch.com/4/flatly/bootstrap.min.css">
+        <link rel="stylesheet" href="/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/css/bootstrap.css">
+
+        {% block stylesheets %}
+        {% endblock %}
+    </head>
+    <body>
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="{{ path('home') }}">Gestion Cabinet</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarColor01">
+        <ul class="navbar-nav mr-auto">
+        {% if  app.user %}
+        <li class="nav-item">
+            <a class="nav-link" href="{{path('gestion')}}">Liste des patients</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('consultation_liste') }}">Liste Consultation</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('gestion_create') }}">Nouveau Patient</a>
+        </li>
+        {% endif %}
+        {% if not app.user %}
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('security_login') }}">Connexion</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('security_registration') }}">Inscription</a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('security_logout') }}">Déconnexion</a>
+        </li>
+        {% endif %}
+        </ul> 
+    </div>
+    </nav>
+        <div class="container">
+            {% block body %}{% endblock %}
+            
+        </div>
+        <script src="/js/jquery-3.4.1.min.js"></script>
+       <script src="/js/bootstrap.min.js"></script>
+        {% block javascripts %}
+        {% endblock %}
+    </body>
+</html>

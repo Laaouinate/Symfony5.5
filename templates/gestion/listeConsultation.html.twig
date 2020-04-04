@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+{% block title %}Consultations  {% endblock %}
+
+{% block stylesheets %}
+
+    <link rel="stylesheet" href="/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="/css/dataTables.bootstrap4.min.css">
+    
+{% endblock %}
+{% block body %}
+{% if  app.user %}
+ <div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Liste des consultations</h1>
+            
+            <div class="float-left padding-bottom">
+                <button type="button" class="btn btn-info">
+                    Totals  <span class="badge badge-light">{{ totals }}</span>
+                </button>
+            </div>
+                            
+            <div class="float-right">
+                <a href="{{ path('consultation_jour') }}">Liste du jour</a>
+            </div>
+
+               <table class="table table-hover" id="tables">
+                    <thead>
+                        <tr>
+                        <th scope="col">Patient</th>
+                        <th scope="col">Ipp</th>
+                        <th scope="col">date prise  de rendez vous</th>
+                        <th scope="col">Date RDV</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Realisation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for consultation in consultations %}
+
+                    <tr class="table-Default">
+                      <th scope="row">{{ consultation.patients.nom ~ ' ' ~  consultation.patients.prenom}}</th>
+                      <th scope="row">{{ consultation.patients.id}}</th>
+                      <th scope="row">{{ consultation.createdAt |date("m/d/Y") }}</th>
+                      <th scope="row">{{ consultation.dateRdv |date("m/d/Y") }}</th>
+                      <th scope="row">{{ consultation.description}}</th>
+                      <th scope="row">{{ consultation.realisation}}</th>
+                    </tr>
+
+
+                    {% endfor %}
+                    </tbody>
+            </table> 
+        </div>
+    </div>
+</div>
+
+{% block javascripts %}
+    <script src="/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#tables').DataTable({ "language": { "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json" } });
+        } );
+   </script>
+
+{% endblock %}
+
+{% endif %}
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+        
+<div class="float-right">
+<h4>Patient : {{patient.prenom ~ ' ' ~ patient.nom ~ ' ' ~ patient.id}}</h4>
+</div>
+ 
+<div class="container-md col-sm-8 col-form-label">
+
+<h1>Création d'un Consultation </h1>
+
+{% for message in app.flashes('success') %}
+            <div class="alert alert-info">
+                {{ message }}
+            </div>
+{% endfor %}
+
+
+{{ form_start(formconsultation,{'attr':{'novalidate':'novalidate'}})}}
+
+{{ form_row(formconsultation.dateRdv, {'label': 'Date de rendez-vous'}) }}
+{{ form_row(formconsultation.description,{'label' : "Description"}) }}
+{{ form_row(formconsultation.realisation,{'label' : "Realisation",'attr':{'placeholder':'oui/non'}}) }}
+{{ form_row(formconsultation.patients, { 'attr': {'class': 'hidden-row'} }) }}
+
+<button type="submit" class="btn btn-outline-success">Ajouter patient</button>
+
+{{ form_end(formconsultation)}}
+</br>
+
+ <table class="table table-hover" id="tablesMy">
+        <thead>
+            <tr>
+            <th scope="col">Date Rdv</th>
+            <th scope="col">Description</th>
+            <th scope="col">Action(Réalisation)</th>
+            </tr>
+        </thead>
+        <tbody>
+
+    {% for cons in patient.consultations %}
+
+     <tr class="table-Default">
+
+        <td scope="row"> {{  cons.dateRdv|date("m/d/Y") }} </td>
+        <td>{{  cons.description }}</td>
+        <td>{{  cons.realisation }}</td>
+        <td>
+             <a href="{{ path('consultation_delete',{'id':cons.id})}}" class="btn btn-outline-danger" OnClick="return confirm('Etes-vous sûr que vous voulez supprimer ?');">Supprimer</a>
+        </td>
+     </tr>
+    {% endfor %}
+       </tbody>
+</table> 
+
+</div>  
+
+{% endblock %}
